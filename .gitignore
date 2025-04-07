@@ -6,3 +6,6 @@
 e### macOS Patch ###
 # iCloud generated files
 *.icloud
+
+
+code/__pycache__/
