@@ -57,9 +57,3 @@ def plot_decomposition(image, cA, cH, cV, cD):
     plt.tight_layout()
     plt.subplots_adjust(top=0.93)  
     plt.show()
-
-image = io.imread('example_triangle.png', as_gray=True)
-
-cA, cH, cV, cD = losw_decompose(image)
-
-plot_decomposition(image, cA, cH, cV, cD)
