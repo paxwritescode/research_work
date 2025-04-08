@@ -1,4 +1,7 @@
-import LOSW_decomposition
+from LOSW_decomposition import losw_decompose
+from LOSW_decomposition import plot_decomposition
+
+from skimage import io, color
 
 image = io.imread('example_triangle.png', as_gray=True)
 
