@@ -58,4 +58,4 @@ def visualize_MSANM(E_d):
     plt.title('Edge image $E_d $obtained by \n the multi-structure anti-noise morphological operator')
     plt.axis('off')
     plt.tight_layout()
-    plt.show()
+    plt.savefig("results/MSANM_res.png")

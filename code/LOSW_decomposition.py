@@ -56,4 +56,4 @@ def plot_decomposition(image, cA, cH, cV, cD):
     
     plt.tight_layout()
     plt.subplots_adjust(top=0.93)  
-    plt.show()
+    plt.savefig("results/LOSW_decomposition.png")
