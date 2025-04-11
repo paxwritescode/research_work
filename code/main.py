@@ -21,3 +21,6 @@ visualize_result(image=image_2, filename_decomposition="results/LOSW_decompositi
 
 image_3 = io.imread('examples/example_square1.png', as_gray=True)
 visualize_result(image=image_3, filename_decomposition="results/LOSW_decomposition_sq1.png", filename_MSANM="results/MSANM_res_sq1.png")
+
+image_4 = io.imread('examples/example_square2.png', as_gray=True)
+visualize_result(image=image_4, filename_decomposition="results/LOSW_decomposition_sq2.png", filename_MSANM="results/MSANM_res_sq2.png")
