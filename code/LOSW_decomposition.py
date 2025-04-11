@@ -13,31 +13,32 @@ def losw_basis(t):
 
 def losw_filter_bank():
     p = np.array([9/5, -19/15, 8/15, -1/15])
-    q = np.array([0.5, -0.5]) 
+    # q = np.array([0.5, -0.5]) 
+    q = np.array([1, 0, -1]) / 2
     return p, q
 
 def losw_decompose(image):
     image = color.rgb2gray(image) if len(image.shape) == 3 else image
     p, q = losw_filter_bank()
-    
+
     # Фильтрация строк
     low_rows = signal.convolve2d(image, p.reshape(1, -1), mode='same', boundary='symm')
     high_rows = signal.convolve2d(image, q.reshape(1, -1), mode='same', boundary='symm')
-    
+
     # Фильтрация столбцов
     cA = signal.convolve2d(low_rows, p.reshape(-1, 1), mode='same', boundary='symm')
-    cH = signal.convolve2d(low_rows, q.reshape(-1, 1), mode='same', boundary='symm')
-    cV = signal.convolve2d(high_rows, p.reshape(-1, 1), mode='same', boundary='symm')
+    cH = signal.convolve2d(high_rows, p.reshape(-1, 1), mode='same', boundary='symm') 
+    cV = signal.convolve2d(low_rows, q.reshape(-1, 1), mode='same', boundary='symm') 
     cD = signal.convolve2d(high_rows, q.reshape(-1, 1), mode='same', boundary='symm')
     
     return cA, cH, cV, cD
 
-def plot_decomposition(image, cA, cH, cV, cD):
+def visualize_decomposition(image, cA, cH, cV, cD, filename):
     fig, axes = plt.subplots(3, 2, figsize=(10, 9))
     
     axes[0, 0].imshow(image, cmap='gray')
     axes[0, 0].set_title('Original Image')
-    axes[0, 0].axis('off')  # Убираем оси для оригинального изображения
+    axes[0, 0].axis('off') 
     
     axes[0, 1].axis('off')
     
@@ -56,4 +57,4 @@ def plot_decomposition(image, cA, cH, cV, cD):
     
     plt.tight_layout()
     plt.subplots_adjust(top=0.93)  
-    plt.savefig("results/LOSW_decomposition.png")
+    plt.savefig(filename)

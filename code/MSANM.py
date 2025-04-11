@@ -52,10 +52,10 @@ def MSANM(cA):
     E_d = o3 - e3
     return E_d
 
-def visualize_MSANM(E_d):
+def visualize_MSANM(E_d, filename):
     plt.figure(figsize=(6, 6))
     plt.imshow(E_d, cmap='gray')
-    plt.title('Edge image $E_d $obtained by \n the multi-structure anti-noise morphological operator')
+    plt.title('Edge image $E_d$ obtained by \n the multi-structure anti-noise morphological operator')
     plt.axis('off')
     plt.tight_layout()
-    plt.savefig("results/MSANM_res.png")
+    plt.savefig(filename)
