@@ -48,16 +48,17 @@ def visualize_SUAMM(CH_prime, CV_prime, CD_prime, filename):
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 
     axes[0].imshow(CH_prime, cmap='gray')
-    axes[0].set_title('CH\' после SUAMM')
+    axes[0].set_title('CH\' after SUAMM')
     axes[0].axis('off')
 
     axes[1].imshow(CV_prime, cmap='gray')
-    axes[1].set_title('CV\' после SUAMM')
+    axes[1].set_title('CV\' after SUAMM')
     axes[1].axis('off')
 
     axes[2].imshow(CD_prime, cmap='gray')
-    axes[2].set_title('CD\' после SUAMM')
+    axes[2].set_title('CD\' after SUAMM')
     axes[2].axis('off')
 
     plt.tight_layout()
     plt.savefig(filename)
+    plt.close()
