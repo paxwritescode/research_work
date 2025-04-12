@@ -21,11 +21,11 @@ def losw_decompose(image):
     image = color.rgb2gray(image) if len(image.shape) == 3 else image
     p, q = losw_filter_bank()
 
-    # Фильтрация строк
+    # Strings filtration
     low_rows = signal.convolve2d(image, p.reshape(1, -1), mode='same', boundary='symm')
     high_rows = signal.convolve2d(image, q.reshape(1, -1), mode='same', boundary='symm')
 
-    # Фильтрация столбцов
+    # Columns filtration
     cA = signal.convolve2d(low_rows, p.reshape(-1, 1), mode='same', boundary='symm')
     cH = signal.convolve2d(high_rows, p.reshape(-1, 1), mode='same', boundary='symm') 
     cV = signal.convolve2d(low_rows, q.reshape(-1, 1), mode='same', boundary='symm') 
