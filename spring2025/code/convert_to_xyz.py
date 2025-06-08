@@ -15,6 +15,7 @@ def rgb_to_xyz(image_rgb):
         [0.019334, 0.119193, 0.950227]    
     ])
 
+    # transformation RGB -> XYZ
     shape = img_rgb_norm.shape
     img_flat = img_rgb_norm.reshape(-1, 3)
     img_xyz_flat = img_flat @ T_rgb2xyz.T
@@ -22,13 +23,6 @@ def rgb_to_xyz(image_rgb):
 
     return img_xyz
 
-def show_channels(image, title_prefix):
-    fig, axes = plt.subplots(1, 3, figsize=(15,5))
-    for i, label in enumerate(['X', 'Y', 'Z']):
-        axes[i]. imshow(image[:, :, i], cmap='gray')
-        axes[i].set_title(f"{title_prefix} channel {label}")
-        axes[i].axis('off')
-    plt.tight_layout()
 
 def save_xyz_image(image_xyz, filename, output_dir = 'results/convert_to_xyz'):
     os.makedirs(output_dir, exist_ok=True)
@@ -44,10 +38,11 @@ def save_xyz_image(image_xyz, filename, output_dir = 'results/convert_to_xyz'):
 
     for i in range(3):
         channel = image_xyz[:, :, i]
-        channel_8bit = np.clip(channel * 255.0, 0, 255).astype(np.uint8)
+        channel_normalized = channel / np.max(channel)
+        channel_8bit = np.clip(channel_normalized * 255.0, 0, 255).astype(np.uint8)
 
         channel_bgr = cv2.cvtColor(channel_8bit, cv2.COLOR_GRAY2BGR)
-        cv2.putText(channel_bgr, f'Channel {labels[i]}', (10, 30), font, font_scale, (255, 255, 255), thickness)
+        cv2.putText(channel_bgr, f'Channel {labels[i]}', (10, 30), font, font_scale, (0, 0, 0), thickness)
         
         channels.append(channel_bgr)
     combined = np.hstack(channels)

@@ -8,4 +8,6 @@ e### macOS Patch ###
 *.icloud
 
 
-code/__pycache__/ code/.vscode
+code/__pycache__/
+code/.vscode
+code/venv310
