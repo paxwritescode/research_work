@@ -1,0 +1,11 @@
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverrid
+e### macOS Patch ###
+# iCloud generated files
+*.icloud
+
+
+code/__pycache__/ code/.vscode
