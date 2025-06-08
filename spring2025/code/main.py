@@ -4,6 +4,7 @@ import numpy as np
 from convert_to_xyz import rgb_to_xyz, save_xyz_image
 from cbm3d_filter import cbm3d_denoise_xyz
 from esm import compute_xyz_gradients, apply_agdd, compute_edge_strength_map
+from non_maximum_suppression import non_maximum_suppression
 
 def process_esm(img_xyz_denoised, path):
     base_name = os.path.splitext(os.path.basename(path))[0]
@@ -45,9 +46,14 @@ def process_image(input_path):
     img_xyz_denoised = cbm3d_denoise_xyz(img_xyz)
     save_xyz_image(img_xyz_denoised, filename=f"{base_name}_xyz_cbm3d", output_dir="results/cbm3d")
 
-    process_esm(img_xyz_denoised=img_xyz_denoised, path=input_path)
+    esm = process_esm(img_xyz_denoised=img_xyz_denoised, path=input_path)
+
+    nms = non_maximum_suppression(esm)
+    cv2.imwrite(f"results/nms/{base_name}_nms.png", (nms * 255).astype(np.uint8))
+
 
 
 process_image("images/cat.png")
 process_image("images/plant.png")
 process_image("images/dolphin.png")
+process_image("images/fox.png")
