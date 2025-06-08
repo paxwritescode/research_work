@@ -5,6 +5,8 @@ from convert_to_xyz import rgb_to_xyz, save_xyz_image
 from cbm3d_filter import cbm3d_denoise_xyz
 from esm import compute_xyz_gradients, apply_agdd, compute_edge_strength_map
 from non_maximum_suppression import non_maximum_suppression
+from double_threshold import double_threshold
+from morphology import morphological_refinement
 
 def process_esm(img_xyz_denoised, path):
     base_name = os.path.splitext(os.path.basename(path))[0]
@@ -51,6 +53,11 @@ def process_image(input_path):
     nms = non_maximum_suppression(esm)
     cv2.imwrite(f"results/nms/{base_name}_nms.png", (nms * 255).astype(np.uint8))
 
+    edge_binary = double_threshold(nms, high_ratio=0.8, low_ratio=0.5)
+    cv2.imwrite(f"results/double_thresholding/{base_name}_edges_thresholded.png", edge_binary * 255)
+
+    final_edges = morphological_refinement(edge_binary)
+    cv2.imwrite(f"results/final/{base_name}_edges_final.png", final_edges * 255)
 
 
 process_image("images/cat.png")
