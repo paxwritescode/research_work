@@ -53,7 +53,8 @@ def process_image(input_path):
     nms = non_maximum_suppression(esm)
     cv2.imwrite(f"results/nms/{base_name}_nms.png", (nms * 255).astype(np.uint8))
 
-    edge_binary = double_threshold(nms, high_ratio=0.8, low_ratio=0.5)
+    nms = nms / nms.max()
+    edge_binary = double_threshold(nms)
     cv2.imwrite(f"results/double_thresholding/{base_name}_edges_thresholded.png", edge_binary * 255)
 
     final_edges = morphological_refinement(edge_binary)

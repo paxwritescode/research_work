@@ -1,7 +1,7 @@
 import numpy as np
 from skimage.morphology import binary_dilation
 
-def double_threshold(nms, high_ratio=0.8, low_ratio=0.5):
+def double_threshold(nms, high_ratio=0.55, low_ratio=0.45):
     Hth = nms.max() * high_ratio
     Lth = Hth * low_ratio
 
