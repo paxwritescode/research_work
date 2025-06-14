@@ -5,7 +5,7 @@ from convert_to_xyz import rgb_to_xyz, save_xyz_image
 from cbm3d_filter import cbm3d_denoise_xyz
 from esm import compute_xyz_gradients, apply_agdd, compute_edge_strength_map
 from non_maximum_suppression import non_maximum_suppression
-from double_threshold import double_threshold
+from double_threshold import double_threshold, double_threshold_strict
 from morphology import morphological_refinement
 
 def process_esm(img_xyz_denoised, path):
@@ -47,6 +47,9 @@ def process_image(input_path):
 
     img_xyz_denoised = cbm3d_denoise_xyz(img_xyz)
     save_xyz_image(img_xyz_denoised, filename=f"{base_name}_xyz_cbm3d", output_dir="results/cbm3d")
+    diff = np.abs(img_xyz - img_xyz_denoised)
+    cv2.imwrite(f"results/cbm3d/{base_name}_diff.png", (diff / diff.max() * 255).astype(np.uint8))
+
 
     esm = process_esm(img_xyz_denoised=img_xyz_denoised, path=input_path)
 
@@ -55,6 +58,7 @@ def process_image(input_path):
 
     nms = nms / nms.max()
     edge_binary = double_threshold(nms)
+    # edge_binary = double_threshold_strict(nms, lambda_param=0.9, mu_param=0.5)
     cv2.imwrite(f"results/double_thresholding/{base_name}_edges_thresholded.png", edge_binary * 255)
 
     final_edges = morphological_refinement(edge_binary)
@@ -64,4 +68,5 @@ def process_image(input_path):
 process_image("images/cat.png")
 process_image("images/plant.png")
 process_image("images/dolphin.png")
+process_image("images/dolphin_noised.png")
 process_image("images/fox.png")
